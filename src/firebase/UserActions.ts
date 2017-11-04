@@ -8,4 +8,7 @@ export class UserActions {
     public getAll(perPage:number = 50):Promise<admin.auth.ListUsersResult>{
         return this.firebase.auth().listUsers(perPage)
     }
+    public decodeToken(idToken:string):Promise<admin.auth.DecodedIdToken>{
+        return this.firebase.auth().verifyIdToken(idToken)
+    }
 }

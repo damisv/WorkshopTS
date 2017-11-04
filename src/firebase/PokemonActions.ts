@@ -10,9 +10,9 @@ export class PokemonActions{
         this.dbRef = firebase.database().ref('workshop-typescript').child('pokemons')
     }
 
-    public getAll(perPage:number = 50):Promise<any>{
+    public getAll(userId:string):Promise<Pokemon[]>{
             return new Promise((resolve:(value:Pokemon[])=>void,reject:(err:any)=>void)=>{
-                this.dbRef.once('value',(snap)=>{  
+                this.dbRef.child(userId).once('value',(snap)=>{  
                     const pokes = snap.val()
                     const pokesArray:Pokemon[] = []
                         for(const key in pokes){
@@ -23,5 +23,22 @@ export class PokemonActions{
                         resolve(pokesArray)
                 })
             }) 
+    }
+
+    public getOne(userId:string,id:string):Promise<Pokemon>{
+        return new Promise((resolve:(value:Pokemon)=>void,reject:(err:any)=>void)=>{
+            this.dbRef.child(userId).child(id).once('value',(snap)=>{
+                resolve(snap.val())
+            })
+        }) 
+    }
+    public addPokemon(userId:string,poke:Pokemon):Promise<admin.database.ThenableReference>{
+        return this.dbRef.child(userId).push(poke)
+    }
+    public updatePokemon(userId:string,id:string,poke:Pokemon):Promise<void>{
+        return this.dbRef.child(userId).child(id).update(poke)
+    }
+    public deletePokemon(userId:string,id:string):Promise<void>{
+        return this.dbRef.child(userId).child(id).remove()
     }
 }

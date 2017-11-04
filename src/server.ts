@@ -9,6 +9,7 @@ const app = new App(config)
 const firebase = new FireBaseAdmin(config.FIREBASE_KEY_LOCATION)
 
 app.init()
+app.allowCors()
 app.initServiceStatus()
 UserRoutes.init(app.app,firebase)
 PokemonRoutes.init(app.app,firebase)

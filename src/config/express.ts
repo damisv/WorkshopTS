@@ -16,6 +16,9 @@ export class App{
         this.app.use(bodyParser.urlencoded({extended:true}))
         this.app.use(morgan('dev'))
     }
+    public allowCors(){
+        //headers
+    }
     public initServiceStatus():void{
         this.app.get('/',(req:Request,res:Response)=>{
             res.send({serviceStatus:'working'})
